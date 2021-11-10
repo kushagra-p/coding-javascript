@@ -33,7 +33,6 @@ export class AppController {
   //Route to register new user
   @Post('signup')
   async register(@Request() req) {
-    console.log(req.body)
     return this.userService.registerUser(req.body);
   }
 }

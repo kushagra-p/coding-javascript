@@ -1,9 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-
+import * as helmet from 'helmet'
+var cors = require('cors');
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const options = new DocumentBuilder()
     .setTitle('team API')
     .setDescription('API to fetch/insert team details')
@@ -13,5 +14,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
   const server = await app.listen(3000);
   server.setTimeout(9900000);
+  app.use(helmet());
+  app.enableCors()
 }
 bootstrap();

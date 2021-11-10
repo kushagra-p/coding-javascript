@@ -28,7 +28,6 @@ export class TeamController {
     status: 201,
     description: 'Record fetched',
   })
-  @ApiParam({ name: 'userId', type: 'number' })
   getData(@Request() req) {
     return this.service.getData(req.user.userId);
   }
@@ -37,9 +36,16 @@ export class TeamController {
     status: 201,
     description: 'Record inserted',
   })
-  async createEmployee(@Body() bdy, @Request() req) {
-    console.log(req.user);
-    console.log(bdy);
+  async createTeam(@Body() bdy, @Request() req) {
     return this.service.createTeam(bdy, req.user);
+  }
+  //Route to de-select team
+  @Post('remove')
+  @ApiResponse({
+    status: 201,
+    description: 'Record inserted',
+  })
+  async removeTeam(@Body() bdy, @Request() req) {
+    return this.service.deleteTeam(bdy, req.user);
   }
 }
