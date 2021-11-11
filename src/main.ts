@@ -12,7 +12,10 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
-  const server = await app.listen(3000);
+
+  const server = await app.listen(process.env.PORT || 3000, function(){
+  console.log("NestJs server listening on port ", process.env.PORT || 3000);
+});
   server.setTimeout(9900000);
   app.use(helmet());
   app.enableCors()
