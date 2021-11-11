@@ -1,0 +1,18 @@
+.signup{
+    align-content: center;
+    text-align: center;
+    color: white;
+    background-color: black;
+    height: 100%;
+    padding-top: 150px;
+}
+div{
+    margin: auto;
+    margin-bottom: 20px;
+}
+label{
+    margin-right: 20px;
+}
+button{
+    margin-right: 20px;
+}

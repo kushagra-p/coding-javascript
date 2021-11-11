@@ -1,0 +1,92 @@
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { firstValueFrom, map } from "rxjs";
+import { globalURLs } from "src/environments/environment";
+
+@Injectable()
+export class DataService {
+    loginCheck=false
+    constructor(private http:HttpClient){}
+    getToken(body:any){
+        const url=`${globalURLs.TEAM_API}auth/login`
+        let res:any= this.http.post(url,body).pipe(map((data:any)=>{
+            localStorage.removeItem('token');
+            localStorage.setItem('token',data.access_token)
+            return data
+        }))
+        this.loginCheck=true
+        return res
+    }
+    logout(){
+        this.loginCheck=false
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+    }
+    getLoginCheck(){
+        return this.loginCheck
+    }
+    getLoggedInToken(){
+        return localStorage.getItem('token');
+    }
+    getUser(token:any){
+        const url=`${globalURLs.TEAM_API}profile`
+        const headers={
+            "Content-Type": "application/json",
+            "Authorization":"Bearer "+token
+        }
+        let res:any= this.http.get(url,{headers}).pipe(map((data:any)=>{
+            localStorage.removeItem('user');
+            localStorage.setItem('user',data)
+            return data
+        }))
+        return res
+    }
+    getLoggedInUser(){
+        return localStorage.getItem('user');
+    }
+     getAll(token:any){
+        const url=`${globalURLs.TEAM_API}players`
+        const headerOpts={
+            Authorization:"Bearer "+token
+        }
+        const res=this.http.get(url,{headers:headerOpts})
+        return res
+    }
+    team(token:any,body:any){
+        const url=`${globalURLs.TEAM_API}team`
+        const headers={
+            "Content-Type": "application/json",
+            "Authorization":"Bearer "+token
+        }
+        const res=this.http.post(url,body,{headers})
+        return res
+    }
+    remove(token:any,body:any){
+        const url=`${globalURLs.TEAM_API}remove`
+        const headers={
+            "Content-Type": "application/json",
+            "Authorization":"Bearer "+token
+        }
+        const res=this.http.post(url,body,{headers})
+        return res
+    }
+    getTeam(token:any){
+        const url=`${globalURLs.TEAM_API}team`
+        const headers={
+            "Content-Type": "application/json",
+            "Authorization":"Bearer "+token
+        }
+        const res=this.http.get(url,{headers})
+        return res
+    }
+    signUp(body:any){
+        const headers={
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+        }
+        const url=`${globalURLs.TEAM_API}signup`
+        let res:any= this.http.post(url,body)
+        return res
+    }
+
+}

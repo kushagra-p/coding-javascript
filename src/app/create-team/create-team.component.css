@@ -1,0 +1,71 @@
+.header{
+    background-color: #40454d;
+    height: 50%;
+    color: white;
+    align-items: center;
+    text-align: left;
+    align-content: center;
+    padding-top: 30px;
+    padding-left: 100px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+}
+.h2-team{
+    padding-left: 20px;
+    font-weight: bold;
+    font-family: "Times New Roman", Times, serif;
+}
+p{
+    padding-left: 20px;
+    font-family: "Times New Roman", Times, serif;
+}
+.h2-player{
+    padding-left: 20px;
+    font-weight: bold;
+    color: #ccc456;
+    font-family: "Times New Roman", Times, serif;
+}
+.footer{
+background-color: black;
+height: 50%;
+color: white;
+
+align-items: center;
+text-align: left;
+align-content: center;
+padding-top: 40px;
+    padding-left: 100px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+}
+.player{
+    /* border: 2px dotted grey;
+    border-radius: 10px;
+    display: inline-block;
+    margin-left: 20px;
+    height: 100px;
+    text-align: center;
+    width: 100px;
+    padding-top: 100px; */
+    border: 2px dotted grey;
+    border-radius: 10px;
+    display: inline-block;
+    margin-left: 20px;
+    width:170px;
+    text-align: center;
+}
+.display{
+    display: inline-block;
+}
+.teamplayer{
+    border: 2px dotted grey;
+    border-radius: 10px;
+    display: inline-block;
+    margin-left: 20px;
+    width:170px;
+    text-align: center;
+    
+}
+.team-arrow{
+
+}

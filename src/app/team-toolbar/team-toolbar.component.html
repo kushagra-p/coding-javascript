@@ -1,0 +1,27 @@
+<div>
+    <mat-toolbar class="toolbar">
+      <mat-toolbar-row>
+        <span>
+            <img src="/assets/header_1.png" alt="Site Logo"/>
+        </span>
+        <!-- <mat-tab-group mat-align-tabs="center"> -->
+            <nav mat-tab-nav-bar class = "tabs">
+                <!-- <a mat-tab-link [routerLink]="'/create-team'" label="Create Team" >Create Team</a>
+                <a mat-tab-link [routerLink]="'/view-team'" label="View Team" >View Team</a> -->
+                <a mat-tab-link 
+                *ngFor="let link of navLinks"
+                [routerLink]="link.link"
+                routerLinkActive #rla="routerLinkActive"
+                [active]="rla.isActive">{{link.label}}</a>
+                
+            </nav>  
+            <!-- <mat-tab label="Create Team" >Create Team</mat-tab>
+            <mat-tab label="View Team">View Team</mat-tab> -->
+          <!-- </mat-tab-group> -->
+          <span class="example-spacer"></span>
+          <a routerLink="/signup"> <button mat-stroked-button class="button" color="primary">Sign up</button></a>
+        <a routerLink="/login"><button mat-raised-button class="button" color="primary" >Login</button></a>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+</div>

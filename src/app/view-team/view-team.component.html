@@ -1,0 +1,46 @@
+<div>
+    <div class="header">
+        <h1>PLAYER ROSTER</h1>
+        <h3>See the Roster for selected Team</h3>
+    </div>
+    <div class="footer">
+        <div class="menu">
+            <button class="menu-button" mat-button [matMenuTriggerFor]="country" (click)="getCountry()">{{filterC??'All'}}
+                <mat-icon class="team-arrow" (click)="arrow(arrowPoint)">{{arrowPoint=='down'?'keyboard_arrow_down':'keyboard_arrow_up'}}</mat-icon>
+            </button>
+            <mat-menu #country="matMenu">
+                <button mat-menu-item (click)="showCountry('All')">All</button>
+                <button mat-menu-item *ngFor="let item of countryName; let i = index" (click)="showCountry(item)">{{item}}</button>
+            </mat-menu>
+            <button class="menu-button-1" mat-button [matMenuTriggerFor]="role" (click)="getRole()">{{filterR??'All'}}
+                <mat-icon class="team-arrow" (click)="arrow1(arrowPoint1)">{{arrowPoint1=='down'?'keyboard_arrow_down':'keyboard_arrow_up'}}</mat-icon>
+            </button>
+            <mat-menu #role="matMenu">
+                <button mat-menu-item (click)="showRole('All')">All</button>
+                <button mat-menu-item *ngFor="let item of roleName; let i = index" (click)="showRole(item)">{{item}}</button>
+            </mat-menu>
+            <button class="menu-button-2" mat-button (click)="clear()">Clear Filters</button>
+        </div>
+        <div class="display">
+            <!-- <mat-icon class="team-arrow" (click)="nextTeam(-1)">keyboard_arrow_left</mat-icon> -->
+            <div *ngFor="let item of displaySource; let i = index" class="teamplayer">
+                <mat-card class="example-card">
+                    <img mat-card-image src="{{item.image}}" alt="Photo">
+                    <mat-icon color="{{item.role=='Batsmen'?'primary'
+                    : item.role=='Bowler'?'warn'
+                    :item.role=='Wicket-Keeper'?'accent'
+                    :item.role=='All-Rounder'?'primary':'primary'}}">{{item.role=='Batsmen'?'sports_cricket'
+                        : item.role=='Bowler'?'sports_baseball'
+                        :item.role=='Wicket-Keeper'?'sports_handball'
+                        :item.role=='All-Rounder'?'sports_score':'sports_cricket'}}</mat-icon>
+                    <mat-card-content>
+                        <h3>{{item.name}} </h3>
+                        <p> {{item.bio}}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <a routerLink="/team/create"> <div class="teamplayer-1" *ngIf="size<11">ADD MORE PLAYERS</div></a>
+            <!-- <mat-icon class="team-arrow" (click)="nextTeam(1)">keyboard_arrow_right</mat-icon> -->
+        </div>
+    </div>
+</div>

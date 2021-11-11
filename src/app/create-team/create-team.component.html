@@ -1,0 +1,57 @@
+<div>
+    <div class="header">
+        <div>
+            <h1 class="h2-team">YOUR TEAM</h1>
+            <ul>
+                <li>To create a team, the user must have at leat 11 Players</li>
+                <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis.</li>
+            </ul>
+        </div>
+        <div class="display">
+            <mat-icon (click)="next(-1)">keyboard_arrow_left</mat-icon>
+            <div *ngFor="let item of dataSourceDisplay; let i = index" class="player">
+                <mat-card class="example-card" (click)="selectedItem(item)">
+                    <img mat-card-image src="{{item.image?item.image:''}}" alt="">
+                    <mat-icon color="{{item.role=='Batsmen'?'primary'
+                    : item.role=='Bowler'?'warn'
+                    :item.role=='Wicket-Keeper'?'accent'
+                    :item.role=='All-Rounder'?'primary':'primary'}}">{{item.role?item.role=='Batsmen'?'sports_cricket'
+                        : item.role=='Bowler'?'sports_baseball'
+                        :item.role=='Wicket-Keeper'?'sports_handball'
+                        :item.role=='All-Rounder'?'sports_score':'sports_cricket':'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '}}</mat-icon>
+                    <mat-card-content>
+                        <h3>{{item.name}} </h3>
+                        <p> {{item.bio?item.bio:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '}}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <mat-icon (click)="next(1)">keyboard_arrow_right</mat-icon>
+        </div>
+    </div>
+    <div class="footer">
+        <div>
+            <h1 class="h2-player">PLAYERS</h1>
+            <p>From a team with these cricketers now:</p>
+        </div>
+        <div class="display">
+            <mat-icon class="team-arrow" (click)="nextTeam(-1)">keyboard_arrow_left</mat-icon>
+            <div *ngFor="let item of dataSourceDisplayTeam; let i = index" class="teamplayer">
+                <mat-card class="example-card" (click)="selected(item)">
+                    <img mat-card-image src="{{item.image}}" alt="Photo">
+                    <mat-icon color="{{item.role=='Batsmen'?'primary'
+                    : item.role=='Bowler'?'warn'
+                    :item.role=='Wicket-Keeper'?'accent'
+                    :item.role=='All-Rounder'?'primary':'primary'}}">{{item.role=='Batsmen'?'sports_cricket'
+                        : item.role=='Bowler'?'sports_baseball'
+                        :item.role=='Wicket-Keeper'?'sports_handball'
+                        :item.role=='All-Rounder'?'sports_score':'sports_cricket'}}</mat-icon>
+                    <mat-card-content>
+                        <h3>{{item.name}} </h3>
+                        <p> {{item.bio}}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <mat-icon class="team-arrow" (click)="nextTeam(1)">keyboard_arrow_right</mat-icon>
+        </div>
+    </div>
+</div>
