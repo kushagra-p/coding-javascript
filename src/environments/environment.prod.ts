@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  
+  TEAM_API: "https://coding-javascript.herokuapp.com/",
 };

@@ -3,12 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  TEAM_API: "https://coding-javascript.herokuapp.com/",
 };
 
-export const globalURLs={
-  TEAM_API: "https://coding-javascript.herokuapp.com/"
-}
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

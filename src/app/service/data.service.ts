@@ -1,14 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { firstValueFrom, map } from "rxjs";
-import { globalURLs } from "src/environments/environment";
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class DataService {
     loginCheck=false
     constructor(private http:HttpClient){}
     getToken(body:any){
-        const url=`${globalURLs.TEAM_API}auth/login`
+        const url=`${environment.TEAM_API}auth/login`
         let res:any= this.http.post(url,body).pipe(map((data:any)=>{
             localStorage.removeItem('token');
             localStorage.setItem('token',data.access_token)
@@ -29,7 +29,7 @@ export class DataService {
         return localStorage.getItem('token');
     }
     getUser(token:any){
-        const url=`${globalURLs.TEAM_API}profile`
+        const url=`${environment.TEAM_API}profile`
         const headers={
             "Content-Type": "application/json",
             "Authorization":"Bearer "+token
@@ -45,7 +45,7 @@ export class DataService {
         return localStorage.getItem('user');
     }
      getAll(token:any){
-        const url=`${globalURLs.TEAM_API}players`
+        const url=`${environment.TEAM_API}players`
         const headerOpts={
             Authorization:"Bearer "+token
         }
@@ -53,7 +53,7 @@ export class DataService {
         return res
     }
     team(token:any,body:any){
-        const url=`${globalURLs.TEAM_API}team`
+        const url=`${environment.TEAM_API}team`
         const headers={
             "Content-Type": "application/json",
             "Authorization":"Bearer "+token
@@ -62,7 +62,7 @@ export class DataService {
         return res
     }
     remove(token:any,body:any){
-        const url=`${globalURLs.TEAM_API}remove`
+        const url=`${environment.TEAM_API}remove`
         const headers={
             "Content-Type": "application/json",
             "Authorization":"Bearer "+token
@@ -71,7 +71,7 @@ export class DataService {
         return res
     }
     getTeam(token:any){
-        const url=`${globalURLs.TEAM_API}team`
+        const url=`${environment.TEAM_API}team`
         const headers={
             "Content-Type": "application/json",
             "Authorization":"Bearer "+token
@@ -84,7 +84,7 @@ export class DataService {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*"
         }
-        const url=`${globalURLs.TEAM_API}signup`
+        const url=`${environment.TEAM_API}signup`
         let res:any= this.http.post(url,body)
         return res
     }
