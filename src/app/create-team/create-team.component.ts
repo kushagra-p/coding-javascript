@@ -38,6 +38,7 @@ export class CreateTeamComponent implements OnInit {
     this.dataSourceDisplay=this.dataSource.slice(0,this.navLimit)
   
   }
+  //Fucntion to fetch all players
 getAll(){
   let res=this.service.getAll(this.token).subscribe(data=>{
     this.dataSourceTeam=data
@@ -45,6 +46,7 @@ getAll(){
   })
   return res
 }
+//Function to fetch players for a team
 getTeam(){
   let res=this.service.getTeam(this.token).subscribe((data:any)=>{
     for(let i=0;i<11;i++){
@@ -61,6 +63,7 @@ getTeam(){
   })
   return res
 }
+//Function to navigate with arrow
 next(n:number){
 if(n==1){
   this.dataSourceDisplay=[]
@@ -101,6 +104,7 @@ if(n==-1){
   }
 }
 }
+//Function to navigate with arrow
 nextTeam(n:number){
   if(n==1){
     this.dataSourceDisplayTeam=[]
@@ -146,6 +150,7 @@ nextTeam(n:number){
     }
   }
   }
+  //Function to select teams
   selected(item:any):any{
 if(this.dataSource.length<=11)
 {this.dataSourceDisplayTeam=this.dataSourceDisplayTeam.filter((data:any)=>{
@@ -168,11 +173,21 @@ if(this.pushIndexDisplay==6&&this.navLimit==5){
 this.dataSource[this.pushIndex]=item
 this.pushIndex++
 }
-this.service.team(this.token,item).subscribe(data=>{
-  this.viewTeam=data
-})
-this.getTeam()
+this.service.team(this.token,item).subscribe((data:any)=>{
+  for(let i=0;i<11;i++){
+    if(i<data.team.length){
+      this.dataSource[i]=data.team[i]
+      this.size++
+    }
+    else{
+      this.dataSource[i]={name:'Player '+(i+1).toString()}
+    }
   }
+
+  this.dataSourceDisplay=this.dataSource.slice(0,this.navLimit)
+})
+  }
+  //Function to de-select teams
 selectedItem(item:any){
   if(item.image){
   this.dataSourceDisplay=this.dataSourceDisplay.filter((data:any)=>{
@@ -194,10 +209,20 @@ if(this.pushIndexDisplayTeam==5&&this.navLimitTeam==5){
 }
 
 this.dataSourceTeam.push(item)
-  this.service.remove(this.token,item).subscribe(data=>{
-    this.viewDisplayTeam=data
+  this.service.remove(this.token,item).subscribe((data:any)=>{
+    
+    for(let i=0;i<11;i++){
+      if(i<data.team.length){
+        this.dataSource[i]=data.team[i]
+        this.size++
+      }
+      else{
+        this.dataSource[i]={name:'Player '+(i+1).toString()}
+      }
+    }
+  
+    this.dataSourceDisplay=this.dataSource.slice(0,this.navLimit)
   })
-  this.getTeam()
 }
 }
 
