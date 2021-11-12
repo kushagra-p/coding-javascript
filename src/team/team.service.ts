@@ -1,8 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable } from '@nestjs/common';
 import { players } from './data-sorce/data-source';
+import { AvatarGenerator } from 'random-avatar-generator';
 
 @Injectable()
 export class TeamService {
+   player=players;
+   generator = new AvatarGenerator();
+  addSource(bdy: any) {
+    this.player.push(bdy)
+    return this.player
+  }
+  removeSource(bdy: any) {
+    this.player=this.player.filter(data=>{
+      if(data.id.toString()!=bdy.id.toString()){
+        return data
+      }
+    })
+    return this.player
+  }
   teamInfo = [{
     user: {
       userId: '',
@@ -11,7 +26,7 @@ export class TeamService {
     team: [],
   }];
   getPlayers() {
-    return players;
+    return this.player;
   }
   getData(id: any) {
     let res=this.teamInfo.filter(data=>{
@@ -24,7 +39,7 @@ export class TeamService {
 
   createTeam(bdy, user) {
     let team;
-    for (let data of players) {
+    for (let data of this.player) {
       if (data.id.toString() === bdy.id.toString()) {
         team = data;
       }
@@ -53,7 +68,7 @@ export class TeamService {
   //Funtion to de-select team
   deleteTeam(bdy,user){
     let team;
-    for(let data of players){
+    for(let data of this.player){
       if (data.id.toString() === bdy.id.toString()) {
         team = data;
       }
