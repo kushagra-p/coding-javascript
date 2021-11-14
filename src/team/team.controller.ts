@@ -69,4 +69,12 @@ export class TeamController {
     return this.service.addSource(bdy);
   }
 
+  @Get('info')
+  @ApiResponse({
+    status: 201,
+    description: 'Record fetched',
+  })
+  getinfo() {
+    return this.service.getPlayerInfo();
+  }
 }

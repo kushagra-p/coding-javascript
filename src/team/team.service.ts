@@ -1,13 +1,18 @@
 import { Body, Injectable } from '@nestjs/common';
-import { players } from './data-sorce/data-source';
+import { players, playersCopy } from './data-sorce/data-source';
 import { AvatarGenerator } from 'random-avatar-generator';
+import * as _ from "lodash"
 
 @Injectable()
 export class TeamService {
-   player=players;
+  player=players;
    generator = new AvatarGenerator();
+   constructor() {
+   }
   addSource(bdy: any) {
+    if(!(this.player.find(o=>o.id==bdy.id))){
     this.player.push(bdy)
+  }
     return this.player
   }
   removeSource(bdy: any) {
@@ -84,5 +89,9 @@ export class TeamService {
         }
     })
     return res[0]
+  }
+  getPlayerInfo(){
+    let res=_.clone(playersCopy)
+    return res
   }
 }
