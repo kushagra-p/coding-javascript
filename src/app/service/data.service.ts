@@ -5,7 +5,7 @@ import { environment } from "src/environments/environment";
 
 @Injectable()
 export class DataService {
-    loginCheck=false
+    loginCheck:any
     constructor(private http:HttpClient){}
     //Function to genrate JWT token
     getToken(body:any){
@@ -13,6 +13,7 @@ export class DataService {
         let res:any= this.http.post(url,body).pipe(map((data:any)=>{
             localStorage.removeItem('token');
             localStorage.setItem('token',data.access_token)
+            this.getUser(data.access_token)
             return data
         }))
         this.loginCheck=true
@@ -22,10 +23,15 @@ export class DataService {
     logout(){
         this.loginCheck=false
         localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        // localStorage.removeItem('user');
     }
     //Function check login
     getLoginCheck(){
+        if(localStorage.getItem('token')){
+            this.loginCheck=true
+        }else{
+            this.loginCheck=false
+        }
         return this.loginCheck
     }
     //Fucntion to get token
@@ -79,6 +85,26 @@ export class DataService {
         const res=this.http.post(url,body,{headers})
         return res
     }
+    //Remove from source
+    removeSource(token:any,body:any){
+        const url=`${environment.TEAM_API}remove-source`
+        const headers={
+            "Content-Type": "application/json",
+            "Authorization":"Bearer "+token
+        }
+        const res=this.http.post(url,body,{headers})
+        return res
+    }
+    //add to source
+    addSource(token:any,body:any){
+        const url=`${environment.TEAM_API}add-source`
+        const headers={
+            "Content-Type": "application/json",
+            "Authorization":"Bearer "+token
+        }
+        const res=this.http.post(url,body,{headers})
+        return res
+    }
     //Function to fetch team
     getTeam(token:any){
         const url=`${environment.TEAM_API}team`
@@ -99,5 +125,12 @@ export class DataService {
         let res:any= this.http.post(url,body)
         return res
     }
-
+    getInfo(token:any){
+        const url=`${environment.TEAM_API}info`
+        const headerOpts={
+            Authorization:"Bearer "+token
+        }
+        const res=this.http.get(url,{headers:headerOpts})
+        return res
+    }
 }

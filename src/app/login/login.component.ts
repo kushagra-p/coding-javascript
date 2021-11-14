@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl!: string;
+  loginCheck=false
+  @Output() loginEmitter = new EventEmitter();
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -54,6 +56,8 @@ export class LoginComponent implements OnInit {
             });
             let token=this.service.getLoggedInToken()
             this.service.getUser(token)
+            this.loginCheck=true
+            this.loginEmitter.emit({check:this.loginCheck.toString()}); 
 }
 
 }

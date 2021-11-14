@@ -8,6 +8,11 @@ import { DataService } from '../service/data.service';
   styleUrls: ['./create-team.component.css']
 })
 export class CreateTeamComponent implements OnInit {
+  countUI:any
+  countTN=0
+  countTP=0
+  countN=0
+  countP=0
   dataSource!: any[];
   dataSourceTeam!:any
   dataSourceDisplay!: any[];
@@ -32,9 +37,8 @@ export class CreateTeamComponent implements OnInit {
         {name:"Player 4"},{name:"Player 5"},{name:"Player 6"},
         {name:"Player 7"},{name:"Player 8"},{name:"Player 9"},{name:"Player 10"},{name:"Player 11"}];
     this.token=this.service.getLoggedInToken()
-    this.getAll()
     this.getTeam()
-    
+    this.getAll()
     this.dataSourceDisplay=this.dataSource.slice(0,this.navLimit)
   
   }
@@ -42,7 +46,7 @@ export class CreateTeamComponent implements OnInit {
 getAll(){
   let res=this.service.getAll(this.token).subscribe(data=>{
     this.dataSourceTeam=data
-    this.dataSourceDisplayTeam=this.dataSourceTeam.slice(0,this.navLimitTeam)
+    this.dataSourceDisplayTeam=data
   })
   return res
 }
@@ -58,7 +62,6 @@ getTeam(){
         this.dataSource[i]={name:'Player '+(i+1).toString()}
       }
     }
-  
     this.dataSourceDisplay=this.dataSource.slice(0,this.navLimit)
   })
   return res
@@ -67,6 +70,9 @@ getTeam(){
 next(n:number){
 if(n==1){
   this.dataSourceDisplay=[]
+  if(this.navLimit==this.dataSource.length){
+    this.navLimit=0;
+  }
   if(this.navLimit==0){
     for(this.navLimit;this.navLimit<this.index;this.navLimit++){
       this.dataSourceDisplay.push(this.dataSource[this.navLimit])
@@ -80,12 +86,13 @@ if(n==1){
       this.dataSourceDisplay.push(this.dataSource[this.navLimit])
     }
   }
-  if(this.navLimit==this.dataSource.length){
-    this.navLimit=0;
-  }
+  
 }
 if(n==-1){
   this.dataSourceDisplay=[]
+  if(this.navLimit==this.dataSource.length){
+    this.navLimit=0;
+  }
   if(this.navLimit==5){
     for(this.navLimit;this.navLimit<10;this.navLimit++){
       this.dataSourceDisplay.push(this.dataSource[this.navLimit])
@@ -99,16 +106,18 @@ if(n==-1){
       this.dataSourceDisplay.push(this.dataSource[this.navLimit])
     }
   }
-  if(this.navLimit==this.dataSource.length){
-    this.navLimit=0;
-  }
 }
 }
 //Function to navigate with arrow
 nextTeam(n:number){
+  if(this.dataSourceTeam.length!=0){
+  
   if(n==1){
     this.dataSourceDisplayTeam=[]
     let c=0;
+    if(this.navLimitTeam>=this.dataSourceTeam.length){
+      this.navLimitTeam=0;
+    }
     if(this.navLimitTeam==0){
       let limit=this.dataSourceTeam.length>this.indexTeam?this.indexTeam:this.dataSourceTeam.length
       for(this.navLimitTeam;this.navLimitTeam<limit;this.navLimitTeam++){
@@ -118,18 +127,20 @@ nextTeam(n:number){
       let limit=this.dataSourceTeam.length>10?10:this.dataSourceTeam.length
       for(this.navLimitTeam;this.navLimitTeam<limit;this.navLimitTeam++){
         this.dataSourceDisplayTeam.push(this.dataSourceTeam[this.navLimitTeam])
+        // this.dataSourceDisplayTeam=this.dataSourceDisplayTeam.slice(this.navLimitTeam,limit)
       }
     }else{
       for(this.navLimitTeam;this.navLimitTeam<this.dataSourceTeam.length;this.navLimitTeam++){
         this.dataSourceDisplayTeam.push(this.dataSourceTeam[this.navLimitTeam])
       }
     }
-    if(this.navLimitTeam==this.dataSourceTeam.length){
-      this.navLimitTeam=0;
-    }
+    
   }
   if(n==-1){
     this.dataSourceDisplayTeam=[]
+    if(this.navLimitTeam==this.dataSourceTeam.length){
+      this.navLimitTeam=0;
+    }
     if(this.navLimitTeam==5){
       let limit=this.dataSourceTeam.length>10?10:this.dataSourceTeam.length
       for(this.navLimitTeam;this.navLimitTeam<limit;this.navLimitTeam++){
@@ -145,14 +156,18 @@ nextTeam(n:number){
         this.dataSourceDisplayTeam.push(this.dataSourceTeam[this.navLimitTeam])
       }
     }
-    if(this.navLimitTeam==this.dataSourceTeam.length){
-      this.navLimitTeam=0;
-    }
   }
+}
   }
   //Function to select teams
   selected(item:any):any{
-if(this.dataSource.length<=11)
+    let check=1
+    this.dataSource.forEach((data:any)=>{
+      if(data.image){
+        check++;
+      }
+    })
+if(check<=11)
 {this.dataSourceDisplayTeam=this.dataSourceDisplayTeam.filter((data:any)=>{
   if(data.id!=item.id){
     return data
@@ -163,6 +178,7 @@ this.dataSourceTeam=this.dataSourceTeam.filter((data:any)=>{
     return data
   }
 })
+if(!this.dataSource.find((o:any)=>o.id==item.id)){
 this.dataSourceDisplay[this.pushIndexDisplay]=item
 this.pushIndexDisplay++
 if(this.pushIndexDisplay==6&&this.navLimit==5){
@@ -170,9 +186,11 @@ if(this.pushIndexDisplay==6&&this.navLimit==5){
 }else if(this.pushIndexDisplay==5&&this.navLimit==0){
   this.pushIndexDisplay=0
 }
-this.dataSource[this.pushIndex]=item
+
+  this.dataSource[this.pushIndex]=item
 this.pushIndex++
-}
+
+
 this.service.team(this.token,item).subscribe((data:any)=>{
   for(let i=0;i<11;i++){
     if(i<data.team.length){
@@ -183,9 +201,15 @@ this.service.team(this.token,item).subscribe((data:any)=>{
       this.dataSource[i]={name:'Player '+(i+1).toString()}
     }
   }
-
+  
   this.dataSourceDisplay=this.dataSource.slice(0,this.navLimit)
 })
+}else{
+  alert("Error: Cannot select the same player twice, Choose another")
+}
+}else{
+  alert("Error: Cannot select more than 11 players, Un-Select to continue Selecting")
+}
   }
   //Function to de-select teams
 selectedItem(item:any){
@@ -200,6 +224,7 @@ selectedItem(item:any){
       return data
     }
   })
+  if(!this.dataSourceTeam.find((o:any)=>o.id==item.id)){
   this.dataSourceDisplayTeam[this.pushIndexDisplayTeam]=item
 this.pushIndexDisplayTeam++
 if(this.pushIndexDisplayTeam==5&&this.navLimitTeam==5){
@@ -207,8 +232,9 @@ if(this.pushIndexDisplayTeam==5&&this.navLimitTeam==5){
 }else if(this.pushIndexDisplayTeam==5&&this.navLimitTeam==0){
   this.pushIndexDisplayTeam=0
 }
-
+ 
 this.dataSourceTeam.push(item)
+  }
   this.service.remove(this.token,item).subscribe((data:any)=>{
     
     for(let i=0;i<11;i++){
@@ -228,8 +254,8 @@ this.dataSourceTeam.push(item)
 
   ngOnInit(): void {
     this.token=this.service.getLoggedInToken()
-    this.getAll()
     this.getTeam()
+    this.getAll()
   }
 
 }

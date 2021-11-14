@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   {path:'team/create', component:CreateTeamComponent},
   {path:'team/view', component:ViewTeamComponent},
+  {path:'**', component:CreateTeamComponent},
 ];
 
 @NgModule({
